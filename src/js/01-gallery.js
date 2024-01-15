@@ -1,29 +1,29 @@
 import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
-console.log(galleryItems);
-import basiclightbox from "https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js";
+import basicLightbox from "https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js";
+
 const modal = basicLightbox.create(`<img>`),
   modalImg = modal.element().querySelector("img");
 
 const gallery = document.querySelector("ul.gallery"),
-  fragment = new DocumentFragment(),
-  liTemplate = document.createElement("template");
-
-liTemplate.innerHTML = `<li class="gallery_item">
-    <a class="gallery_link" href = "large-image.jpg">
-        <img
-            class="gallery_image"
-            src="small-image.jpg"
-            data-source="large-image.jpg"
-            alt="Image description"
-        />
-</a>
-</li>`;
+  fragment = new DocumentFragment();
 
 function appendFromGalleryItem(item) {
-  const clone = liTemplate.content.cloneNode(true),
-    img = clone.querySelector("img");
+  const liTemplate = document.createElement("template");
+  liTemplate.innerHTML = `<li class="gallery_item">
+      <a class="gallery_link" href="${item.original}">
+          <img
+              class="gallery_image"
+              src="${item.preview}"
+              data-source="${item.original}"
+              alt="${item.description}"
+          />
+      </a>
+  </li>`;
+
+  const clone = liTemplate.content.cloneNode(true);
+  const img = clone.querySelector("img");
 
   img.src = item.preview;
   img.alt = item.description;
