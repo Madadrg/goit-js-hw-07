@@ -1,48 +1,50 @@
 import { galleryItems } from "./gallery-items.js";
-// Change code below this line
 
-import basicLightbox from "https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js";
+function renderGallery() {
+  const galleryContainer = document.querySelector(".gallery");
 
-const modal = basicLightbox.create(`<img>`),
-  modalImg = modal.element().querySelector("img");
+  galleryItems.forEach((item) => {
+    const galleryItem = document.createElement("li");
+    galleryItem.classList.add("gallery__item");
 
-const gallery = document.querySelector("ul.gallery"),
-  fragment = new DocumentFragment();
+    const galleryLink = document.createElement("a");
+    galleryLink.classList.add("gallery__link");
+    galleryLink.href = item.original;
 
-function appendFromGalleryItem(item) {
-  const liTemplate = document.createElement("template");
-  liTemplate.innerHTML = `<li class="gallery_item">
-      <a class="gallery_link" href="${item.original}">
-          <img
-              class="gallery_image"
-              src="${item.preview}"
-              data-source="${item.original}"
-              alt="${item.description}"
-          />
-      </a>
-  </li>`;
+    const galleryImage = document.createElement("img");
+    galleryImage.classList.add("gallery__image");
+    galleryImage.src = item.preview;
+    galleryImage.alt = item.description;
+    galleryImage.dataset.source = item.original;
 
-  const clone = liTemplate.content.cloneNode(true);
-  const img = clone.querySelector("img");
+    galleryLink.appendChild(galleryImage);
+    galleryItem.appendChild(galleryLink);
+    galleryContainer.appendChild(galleryItem);
+  });
 
-  img.src = item.preview;
-  img.alt = item.description;
-  img.dataset.source = item.original;
-  fragment.appendChild(clone);
+  galleryContainer.addEventListener("click", onGalleryItemClick);
 }
 
-galleryItems.forEach(appendFromGalleryItem);
-gallery.appendChild(fragment);
-
-gallery.addEventListener("click", (event) => {
+function onGalleryItemClick(event) {
   event.preventDefault();
-  modalImg.src = event.target.dataset.source;
-  modal.show();
-});
 
-document.addEventListener("keydown", (event) => {
-  if (event.code === "Escape" && modal.visible()) {
-    event.preventDefault();
-    modal.close();
+  if (event.target.classList.contains("gallery__image")) {
+    const source = event.target.dataset.source;
+    openModal(source);
   }
-});
+}
+
+function openModal(source) {
+  const instance = basicLightbox.create(
+    `<img src="${source}" alt="Image description">`
+  );
+  instance.show();
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      instance.close();
+    }
+  });
+}
+
+renderGallery();
