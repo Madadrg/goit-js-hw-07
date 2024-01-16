@@ -22,14 +22,16 @@ function renderGallery() {
   });
 }
 
-function initializeSimpleLightbox() {
-  const gallery = new SimpleLightbox(".gallery a", {
+document.addEventListener("DOMContentLoaded", () => {
+  renderGallery();
+
+  const galleryHandler = new SimpleLightbox(".gallery a", {
     captionsData: "alt",
     captionDelay: 250,
   });
-}
 
-document.addEventListener("DOMContentLoaded", () => {
-  renderGallery();
-  initializeSimpleLightbox();
+  galleryHandler.on("show.simplelightbox", function () {
+    // Your code to be executed when the gallery is shown
+    console.log("Gallery is shown!");
+  });
 });
