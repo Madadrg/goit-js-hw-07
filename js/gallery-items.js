@@ -6,7 +6,7 @@ export const galleryItems = [
   },
   {
     preview: "../img/container-haulage-preview.jpg",
-    original: "..img/container-haulage-original.jpg",
+    original: "../img/container-haulage-original.jpg",
     description: "Container Haulage Freight",
   },
   {
