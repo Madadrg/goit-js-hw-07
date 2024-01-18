@@ -10,8 +10,8 @@ export const galleryItems = [
     description: "Container Haulage Freight",
   },
   {
-    preview: "../img/aerial-beach-view-preview.JPG",
-    original: "../img/aerial-beach-view-original.JPG",
+    preview: "img/aerial-beach-view-preview.jpg",
+    original: "img/aerial-beach-view-original.jpg",
     description: "Aerial Beach View",
   },
   {
